@@ -3,17 +3,15 @@ using namespace std;
 //can i put my balls in yo jaws
 int main() {
 	cout << "balls";
+<<<<<<< HEAD
 
-	//luca looool
-	cout<<"I love black men kissing"
 
 
 
 
 	//nibba
-
+=======
 	// yes
-	//balls 2
-
+>>>>>>> afc5f90677d37fe71c2a45c4db046c008e51a38b
 	return 0;
 }
