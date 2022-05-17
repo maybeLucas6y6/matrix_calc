@@ -1,6 +1,7 @@
 #include <iostream>
-
+using namespace std;
+//can i put my balls in yo jaws
 int main() {
-	std::cout << "balls";
+	cout << "balls";
 	return 0;
 }
