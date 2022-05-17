@@ -1,0 +1,10 @@
+-adunare
+-scadere
+-inmultire
+-putere
+-transpusa
+-determinant(daca e patratica)
+-inversa
+-rang
+
+-ecuatii
