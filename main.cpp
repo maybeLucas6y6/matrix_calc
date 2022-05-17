@@ -1,6 +1,6 @@
 #include <iostream>
 
 int main() {
-	cout << "balls";
+	std::cout << "balls";
 	return 0;
 }
