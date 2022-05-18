@@ -191,3 +191,5 @@ void Transpusa(Matrice A) {
 	}
 	ScrieMatrice(C);
 }
+
+// test
