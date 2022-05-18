@@ -18,6 +18,23 @@ public:
 	}
 };
 
+int NrCifMax(Matrice X) {
+	int cmax = 0;
+	for (int i = 0; i < X.n; i++) {
+		for (int j = 0; j < X.m; j++) {
+			int nr = X.valori[i][j], c = 0;
+			while (nr){
+				c++;
+				nr = nr / 10;
+			}
+			if (c > cmax) {
+				cmax = c;
+			}
+		}
+	}
+	return cmax;
+}
+
 bool Apartine(int a, int b, int x) {
 	if (x >= a && x <= b)
 		return true;
@@ -81,7 +98,7 @@ void CitirePutere(int& nr) {
 void ScrieMatrice(Matrice X) {
 	for (int i = 0; i < X.n; i++) {
 		for (int j = 0; j < X.m; j++) {
-			cout << setw(5) << X.valori[i][j];
+			cout << setw(NrCifMax(X)+1) << X.valori[i][j];
 		}
 		cout << '\n';
 	}

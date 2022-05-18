@@ -21,8 +21,8 @@ int main() {
 		/*system("CLS");
 		ScrieMatrice(matriceA);*/
 
-		/*CitirePutere(putere);
-		Putere(matriceA, putere);*/
+		CitirePutere(putere);
+		Putere(matriceA, putere);
 
 		/*Transpusa(matriceA);*/
 	}
