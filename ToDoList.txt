@@ -1,8 +1,8 @@
 +adunare
 +scadere
--inmultire
--putere
--transpusa
++inmultire
++putere
++transpusa
 -determinant(daca e patratica)
 -inversa
 -rang

@@ -9,6 +9,12 @@ public:
 	void SeteazaDimensiuni(int nNou, int mNou) {
 		n = nNou;
 		m = mNou;
+		for (int i=0; i < n; i++) {
+			valori.push_back(vector<int>{});
+			for (int j = 0; j < m; j++) {
+				valori[i].push_back(0);
+			}
+		}
 	}
 };
 
@@ -26,6 +32,7 @@ void CitireNumarMatrici(int &nr) {
 		return;
 	}
 	else {
+		cout << "Numarul de matrici trebuie sa fie 1 sau 2! \n";
 		CitireNumarMatrici(nr);
 	}
 }
@@ -54,19 +61,27 @@ void CitireNumarColoane(int& nr) {
 
 void CitireMatrice(Matrice &X) {
 	for (int i = 0; i < X.n; i++) {
-		X.valori.push_back(vector<int>{});
 		for (int j = 0; j < X.m; j++) {
-			int val;
-			cin >> val;
-			X.valori[i].push_back(val);
+			cin >> X.valori[i][j];
 		}
+	}
+}
+
+void CitirePutere(int& nr) {
+	cout << "Putere: ";
+	cin >> nr;
+	if (Apartine(1, 10, nr)) {
+		return;
+	}
+	else {
+		CitirePutere(nr);
 	}
 }
 
 void ScrieMatrice(Matrice X) {
 	for (int i = 0; i < X.n; i++) {
 		for (int j = 0; j < X.m; j++) {
-			cout << setw(4) << X.valori[i][j];
+			cout << setw(5) << X.valori[i][j];
 		}
 		cout << '\n';
 	}
@@ -81,9 +96,8 @@ void Adunare(Matrice A, Matrice B) {
 	Matrice C;
 	C.SeteazaDimensiuni(A.n, A.m);
 	for (int i = 0; i < A.n; i++) {
-		C.valori.push_back(vector<int>{});
 		for (int j = 0; j < A.m; j++) {
-			C.valori[i].push_back(A.valori[i][j] + B.valori[i][j]);
+			C.valori[i][j]=(A.valori[i][j] + B.valori[i][j]);
 		}
 	}
 	ScrieMatrice(C);
@@ -98,9 +112,64 @@ void Scadere(Matrice A, Matrice B) {
 	Matrice C;
 	C.SeteazaDimensiuni(A.n, A.m);
 	for (int i = 0; i < A.n; i++) {
-		C.valori.push_back(vector<int>{});
 		for (int j = 0; j < A.m; j++) {
-			C.valori[i].push_back(A.valori[i][j] - B.valori[i][j]);
+			C.valori[i][j]=(A.valori[i][j] - B.valori[i][j]);
+		}
+	}
+	ScrieMatrice(C);
+}
+
+void Inmultire(Matrice A, Matrice B) {
+	system("CLS");
+	if (A.m != B.n) {
+		cout << "Dimensiuni incompatibile";
+		return;
+	}
+	Matrice C;
+	C.SeteazaDimensiuni(A.n, B.m);
+	for (int i = 0; i < A.n; i++) {
+		for (int j = 0; j < B.m; j++) {
+			int s = 0;
+			for (int z = 0; z < B.n; z++) {
+				s += A.valori[i][z] * B.valori[z][j];
+			}
+			C.valori[i][j] = s;
+		}
+	}
+	ScrieMatrice(C);
+}
+
+void Putere(Matrice A, int putere) {
+	system("CLS");
+	if (A.m != A.n) {
+		cout << "Dimensiuni incompatibile";
+		return;
+	}
+	Matrice C,D;
+	D.SeteazaDimensiuni(A.n, A.m);
+	C = A;
+	while (putere!=1) {
+		for (int i = 0; i < A.n; i++) {
+			for (int j = 0; j < C.m; j++) {
+				int s = 0;
+				for (int z = 0; z < C.n; z++) {
+					s += A.valori[i][z] * C.valori[z][j];
+				}
+				D.valori[i][j] = s;
+			}
+		}
+		C.valori = D.valori;
+		putere--;
+	}
+	ScrieMatrice(C);
+}
+
+void Transpusa(Matrice A) {
+	Matrice C;
+	C = A;
+	for (int i = 0; i < A.n; i++) {
+		for (int j = i + 1; j < A.m; j++) {
+			swap(C.valori[i][j], C.valori[j][i]);
 		}
 	}
 	ScrieMatrice(C);

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-int nrMatrici;
+int nrMatrici, putere;
 
 Matrice matriceA, matriceB;
 
@@ -15,18 +15,26 @@ int main() {
 	if (nrMatrici == 1) {
 		CitireNumarLinii(matriceA.n);
 		CitireNumarColoane(matriceA.m);
+		matriceA.SeteazaDimensiuni(matriceA.n, matriceA.m);
 		CitireMatrice(matriceA);
 
-		system("CLS");
-		ScrieMatrice(matriceA);
+		/*system("CLS");
+		ScrieMatrice(matriceA);*/
+
+		/*CitirePutere(putere);
+		Putere(matriceA, putere);*/
+
+		/*Transpusa(matriceA);*/
 	}
 	else {
 		CitireNumarLinii(matriceA.n);
 		CitireNumarColoane(matriceA.m);
+		matriceA.SeteazaDimensiuni(matriceA.n, matriceA.m);
 		CitireMatrice(matriceA);
 
 		CitireNumarLinii(matriceB.n);
 		CitireNumarColoane(matriceB.m);
+		matriceB.SeteazaDimensiuni(matriceB.n, matriceB.m);
 		CitireMatrice(matriceB);
 
 		/*system("CLS");
@@ -34,7 +42,8 @@ int main() {
 		cout << '\n';
 		ScrieMatrice(matriceB);*/
 
-		Adunare(matriceA, matriceB);
+		//Adunare(matriceA, matriceB);
+		//Inmultire(matriceA, matriceB);
 	}
 	system("pause");
 	return 0;
