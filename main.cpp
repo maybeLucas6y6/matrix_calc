@@ -3,6 +3,7 @@
 using namespace std;
 
 int main() {
+	cout << "Calculator de matrici - v." << versiune << '\n';
 	CitireNumarMatrici(nrMatrici);
 	CitireDimensiuni(A);
 	CitireMatrice(A);
