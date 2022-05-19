@@ -3,7 +3,7 @@
 +inmultire
 +putere
 +transpusa
--determinant(daca e patratica)
++determinant(daca e patratica)
 -inversa
 -rang
 
@@ -11,3 +11,7 @@
 
 -buffer pt reset la meniu
 -rescrie o matrice
+
+Shortcuts:
+Ctrl+M+O : Collapse all functions
+Ctrl+M+P : Expand all functions

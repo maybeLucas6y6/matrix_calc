@@ -11,6 +11,7 @@ int main() {
 		CitireMatrice(B);
 	}
 	Meniu();
+
 	system("pause");
 	return 0;
 }

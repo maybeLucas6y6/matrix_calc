@@ -107,6 +107,12 @@ void CitirePutere(uint16& nr) {
 	}
 }
 
+void CitireConstanta(int96& nr) {
+	cout << "Constanta : ";
+	cin >> nr;
+	return;
+}
+
 // OUTPUT
 
 void ScrieMatrice(Matrix X) {
@@ -125,6 +131,72 @@ void ScrieMatrice(Matrix X) {
 
 // OPERATII
 
+vector<uint16> permutare;
+//vector<int> ocupat;
+int96 suma,produs;
+//Luca lasa in pace functiile de DETERMINANAT
+
+int Semn(vector<uint16> permutare) {
+	uint16 s = 0;
+	vector<bool> vf;
+	vf.resize(permutare.size() + 1, false); //vf e numerotat de la 1
+	s += permutare[0] - 1; //primul element va avea (element - 1) inversiuni
+	vf[permutare[0]] = true; 
+	for (uint16 i = 1; i < permutare.size() - 1; i++) {
+		vf[permutare[i]] = true;
+		for (uint16 j = permutare[i] - 1; j >= 1; j--) {
+			if (vf[j] == false) {
+				s++;
+			}
+		}
+	}
+	return pow(-1, s);
+}
+
+bool Valid(uint16 k) {
+	for (int j = k - 2; j >= 0; j--) {
+		if (permutare[k-1] == permutare[j]) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void Bkt(Matrix X, uint16 k = 1) {
+	if (k - 1 == permutare.size()) {
+		produs = Semn(permutare);
+		for (uint16 j = 0; j < permutare.size(); j++) {
+			produs *= X[j][permutare[j]-1];
+		}
+		suma += produs;
+	}
+	else
+		for (uint16 i = 0; i < permutare.size(); i++) {
+			/*if (!ocupat[i-1]) {
+				ocupat[i-1] = true;
+				permutare[k] = i;
+				Bkt(X, k + 1);
+				ocupat[i-1] = false;
+			}*/
+			permutare[k-1] = i + 1;
+			if (Valid(k)) {
+				Bkt(X, k + 1);
+			}
+		}
+}
+
+void Determinant(Matrix X) {
+	if (X.size() != X[0].size()) {
+		cout << "Matricea nu este patratica \n";
+		return;
+	}
+	permutare.resize(X.size());
+	//ocupat.resize(X.size(), false);
+	Bkt(X);
+	cout << suma << '\n';
+}
+
+//Luca lasa in pace functiile de DETERMINANAT !!!!
 void Adunare(Matrix A, Matrix B) {
 	if (A.size() != B.size() || A[0].size() != B[0].size()) {
 		cout << "Dimensiuni diferite";
@@ -155,7 +227,7 @@ void Scadere(Matrix A, Matrix B) {
 	ScrieMatrice(C);
 }
 
-void Inmultire(Matrix A, Matrix B) {
+void InmultireMatrici(Matrix A, Matrix B) {
 	if (A[0].size() != B.size()) {
 		cout << "Dimensiuni incompatibile";
 		return;
@@ -172,6 +244,19 @@ void Inmultire(Matrix A, Matrix B) {
 		}
 	}
 	ScrieMatrice(C);
+}
+
+void InmultireConstanta(Matrix A) {
+	int96 constanta;
+	Matrix B;
+	CitireConstanta(constanta);
+	B = A;
+	for (uint16 i = 0; i < B.size(); i++) {
+		for (uint16 j = 0; j < B[0].size(); j++) {
+			B[i][j] = B[i][j] * constanta;
+		}
+	}
+	ScrieMatrice(B);
 }
 
 void Putere(Matrix A, uint16 putere) {
@@ -214,7 +299,9 @@ void Transpusa(Matrix A) {
 void Optiuni() {
 	if (nrMatrici == 1) {
 		cout << "1. Ridicare la putere \n"
-			<< "2. Transpusa \n";
+			<< "2. Transpusa \n"
+			<< "3. Determinant \n"
+			<< "4. Inmultire cu o constanta \n";
 		uint16 optiune;
 		cin >> optiune;
 		switch (optiune) {
@@ -225,6 +312,14 @@ void Optiuni() {
 		}
 		case 2: {
 			Transpusa(A);
+			break;
+		}
+		case 3: {
+			Determinant(A);
+			break;
+		}
+		case 4: {
+			InmultireConstanta(A);
 			break;
 		}
 		default: {
@@ -248,7 +343,7 @@ void Optiuni() {
 			break;
 		}
 		case 3: {
-			Inmultire(A, B);
+			InmultireMatrici(A, B);
 			break;
 		}
 		default: {
