@@ -15,7 +15,7 @@ typedef long double int96;
 
 Matrix A, B;
 
-string versiune = "0.4.1";
+string versiune = "0.4.2";
 
 uint16 nrMatrici, putere;
 
