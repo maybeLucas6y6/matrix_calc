@@ -5,6 +5,7 @@
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
+//#include <chrono> // pt a masura timpul de executie
 
 using namespace std;
 
@@ -21,6 +22,7 @@ uint16 nrMatrici, putere;
 // UTILITATE
 
 void Meniu();
+void Optiuni();
 
 uint16 NumarCifreMaxim(Matrix X) {
 	uint16 cmax = 0;
@@ -115,6 +117,11 @@ void CitireConstanta(int96& nr) {
 
 // OUTPUT
 
+void RescrieOptiuni() {
+	cin.get();
+	Optiuni();
+}
+
 void ScrieMatrice(Matrix X) {
 	for (uint16 i = 0; i < X.size(); i++) {
 		for (uint16 j = 0; j < X[0].size(); j++) {
@@ -122,19 +129,14 @@ void ScrieMatrice(Matrix X) {
 		}
 		cout << '\n';
 	}
-
-	// to be changed
-	char buff;
-	cin >> buff;
-	Meniu();
+	RescrieOptiuni();
 }
 
 // OPERATII
 
 vector<uint16> permutare;
-//vector<int> ocupat;
+vector<bool> ocupat;
 int96 suma,produs;
-//Luca lasa in pace functiile de DETERMINANAT
 
 int Semn(vector<uint16> permutare) {
 	uint16 s = 0;
@@ -150,7 +152,31 @@ int Semn(vector<uint16> permutare) {
 			}
 		}
 	}
-	return pow(-1, s);
+	return (int)pow(-1, s);
+}
+
+int Semn2(vector<uint16> p) {
+	//auto start = chrono::high_resolution_clock::now();
+	vector<bool> vizitat(p.size(), false);
+	int semn = 1;
+	for (uint16 i = 0; i < p.size(); i++) {
+		if (!vizitat[i]) {
+			uint16 x = i;
+			uint16 lungime = 0;
+			while (!vizitat[x]) {
+				lungime++;
+				vizitat[x] = true;
+				x = p[x] - 1;
+			}
+			if (lungime % 2 == 0) {
+				semn = -semn;
+			}
+		}
+	}
+	//auto stop = chrono::high_resolution_clock::now();
+	//auto duration = chrono::duration_cast<chrono::microseconds>(stop - start);
+	//cout << "Semn2 a durat: " << duration.count() << " microsecunde\n";
+	return semn;
 }
 
 bool Valid(uint16 k) {
@@ -162,9 +188,9 @@ bool Valid(uint16 k) {
 	return true;
 }
 
-void Bkt(Matrix X, uint16 k = 1) {
+void Backtracking(Matrix X, uint16 k = 1) {
 	if (k - 1 == permutare.size()) {
-		produs = Semn(permutare);
+		produs = Semn2(permutare);
 		for (uint16 j = 0; j < permutare.size(); j++) {
 			produs *= X[j][permutare[j]-1];
 		}
@@ -172,15 +198,11 @@ void Bkt(Matrix X, uint16 k = 1) {
 	}
 	else
 		for (uint16 i = 0; i < permutare.size(); i++) {
-			/*if (!ocupat[i-1]) {
-				ocupat[i-1] = true;
-				permutare[k] = i;
-				Bkt(X, k + 1);
-				ocupat[i-1] = false;
-			}*/
-			permutare[k-1] = i + 1;
-			if (Valid(k)) {
-				Bkt(X, k + 1);
+			if (!ocupat[i]) {
+				ocupat[i] = true;
+				permutare[k - 1] = i + 1;
+				Backtracking(X, k + 1);
+				ocupat[i] = false;
 			}
 		}
 }
@@ -191,12 +213,12 @@ void Determinant(Matrix X) {
 		return;
 	}
 	permutare.resize(X.size());
-	//ocupat.resize(X.size(), false);
-	Bkt(X);
-	cout << suma << '\n';
+	ocupat.resize(X.size(), false);
+	Backtracking(X);
+	cout << "Determinantul este: " << suma << '\n';
+	RescrieOptiuni();
 }
 
-//Luca lasa in pace functiile de DETERMINANAT !!!!
 void Adunare(Matrix A, Matrix B) {
 	if (A.size() != B.size() || A[0].size() != B[0].size()) {
 		cout << "Dimensiuni diferite";
@@ -264,6 +286,7 @@ void Putere(Matrix A, uint16 putere) {
 		cout << "Dimensiuni incompatibile";
 		return;
 	}
+	CitirePutere(putere);
 	Matrix C, D;
 	D.resize(A.size(), vector<int96>(A[0].size()));
 	C = A;
@@ -306,7 +329,6 @@ void Optiuni() {
 		cin >> optiune;
 		switch (optiune) {
 		case 1: {
-			CitirePutere(putere);
 			Putere(A, putere);
 			break;
 		}
@@ -323,7 +345,7 @@ void Optiuni() {
 			break;
 		}
 		default: {
-			Optiuni();
+			Meniu();
 		}
 		}
 	}
@@ -347,11 +369,10 @@ void Optiuni() {
 			break;
 		}
 		default: {
-			Optiuni();
+			Meniu();
 		}
 		}
 	}
-	//Meniu();
 }
 
 void Meniu() {
