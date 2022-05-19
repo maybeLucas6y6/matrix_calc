@@ -15,7 +15,7 @@ typedef long double int96;
 
 Matrix A, B;
 
-string versiune = "0.3.0";
+string versiune = "0.4.1";
 
 uint16 nrMatrici, putere;
 
@@ -51,7 +51,7 @@ bool Apartine(uint16 a, uint16 b, uint16 x) {
 // INPUT
 
 void CitireNumarMatrici(uint16& nr) {
-	cout << "Numar de matrici: ";
+	cout << "Numar de matrici (intre 1 si 2) : ";
 	cin >> nr;
 	if (Apartine(1, 2, nr)) {
 		return;
